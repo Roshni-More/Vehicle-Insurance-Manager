@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 	@RequestMapping("/")
-	public String showIndex() {
-		return "index";
+	public String indexpage() {
+		return "Login";
 	}
 
 }

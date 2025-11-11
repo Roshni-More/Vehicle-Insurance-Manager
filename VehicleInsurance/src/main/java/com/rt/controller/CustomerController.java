@@ -5,7 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class CustomerController {
-	@RequestMapping("/add")
+
+	@RequestMapping("add")
 	public String showIndex() {
 		return "Customer/addCustomer";
 	}
