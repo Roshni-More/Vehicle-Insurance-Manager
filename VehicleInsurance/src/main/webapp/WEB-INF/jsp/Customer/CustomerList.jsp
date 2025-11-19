@@ -5,7 +5,7 @@
 <div class="page-wrapper">
     <div class="page-content">
         <div class="row">
-				<h6 class="mb-0 text-uppercase">DataTable Example</h6>
+				<h6 class="mb-0 text-uppercase">Customer List</h6>
 				<hr/>
 				<div class="card">
 					<div class="card-body">

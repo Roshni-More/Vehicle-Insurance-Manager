@@ -100,4 +100,28 @@ public class CustomerDao {
 		return false;
 	}
 
+	public List<Customer> getAllCustomer(Integer userId) {
+		String sql = "SELECT * FROM customertable WHERE isactive = 1 AND userId = ?";
+
+		return template.query(sql, new Object[] { userId }, new RowMapper<Customer>() {
+
+			@Override
+			public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Customer c = new Customer();
+				c.setCustomerId(rs.getString("customerId"));
+				c.setCustomerName(rs.getString("customerName"));
+				c.setPhoneNo(rs.getString("phoneNo"));
+				c.setEmailAddress(rs.getString("emailAddress"));
+				c.setAddress(rs.getString("address"));
+				c.setisactive(rs.getInt("isactive"));
+
+				Signup s = new Signup();
+				s.setSignupid(rs.getInt("userId"));
+				c.setUserId(s);
+
+				return c;
+			}
+		});
+	}
 }

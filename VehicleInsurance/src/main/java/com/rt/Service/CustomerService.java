@@ -34,4 +34,8 @@ public class CustomerService {
 		return customerdao.softDeleteCustomer(customerId);
 	}
 
+	public List<Customer> getAllCustomer(Integer userId) {
+		return customerdao.getAllCustomer(userId);
+	}
+
 }
