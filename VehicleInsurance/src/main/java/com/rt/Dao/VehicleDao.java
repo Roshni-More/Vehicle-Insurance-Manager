@@ -107,4 +107,29 @@ public class VehicleDao {
 		return result > 0;
 	}
 
+	public List<Vehicle> getVehiclesByUser(int userId) {
+		String sql = "SELECT * FROM vehicletable WHERE userId = ? AND isactive = 1";
+
+		return template.query(sql, new RowMapper<Vehicle>() {
+
+			@Override
+			public Vehicle mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Vehicle v = new Vehicle();
+
+				v.setVehicleId(rs.getInt("vehicleId"));
+				v.setVehicleName(rs.getString("vehicleName"));
+				v.setModel(rs.getString("model"));
+				v.setVehicleNumber(rs.getString("vehicleNumber"));
+				v.setVehicleType(rs.getString("vehicleType"));
+				v.setPurchaseYear(rs.getInt("purchaseYear"));
+				v.setEngineNo(rs.getString("engineNo"));
+				v.setCustomerId(rs.getInt("customerId"));
+				v.setUserId(rs.getInt("userId"));
+
+				return v;
+			}
+		}, userId);
+	}
+
 }

@@ -37,4 +37,9 @@ public class VehicleService {
 		return vehicledao.deleteVehicledata(vehicleId);
 	}
 
+	public List<Vehicle> getVehiclesByUser(int userId) {
+
+		return vehicledao.getVehiclesByUser(userId);
+	}
+
 }

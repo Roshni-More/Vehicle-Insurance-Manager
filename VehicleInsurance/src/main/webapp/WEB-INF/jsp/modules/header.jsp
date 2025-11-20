@@ -60,7 +60,7 @@
 				
 				<li>
 					<a href="javascript:;" class="has-arrow">
-						<div class="parent-icon"><i class='bx bx-cart'></i>
+						<div class="parent-icon"><i class='bx bx-user'></i>
 						</div>
 						<div class="menu-title">Customer</div>
 					</a>
@@ -82,23 +82,19 @@
 						</li>
 						<li> <a href="vehiclelist"><i class='bx bx-radio-circle'></i>Vehicle-List</a>
 						</li>
-						<li> <a href="component-badges.html"><i class='bx bx-radio-circle'></i>Badges</a>
-						</li>
-						<li> <a href="component-buttons.html"><i class='bx bx-radio-circle'></i>Buttons</a>
-						</li>
 				
 					</ul>
 				</li>
 				<li>
 					<a class="has-arrow" href="javascript:;">
-						<div class="parent-icon"><i class="bx bx-repeat"></i>
+						<div class="parent-icon"><i class="bx bx-shield"></i>
 						</div>
-						<div class="menu-title">Content</div>
+						<div class="menu-title">Policy</div>
 					</a>
 					<ul>
-						<li> <a href="content-grid-system.html"><i class='bx bx-radio-circle'></i>Grid System</a>
+						<li> <a href="policyadd"><i class='bx bx-radio-circle'></i>PolicyAdd</a>
 						</li>
-						<li> <a href="content-typography.html"><i class='bx bx-radio-circle'></i>Typography</a>
+						<li> <a href="Policyshow"><i class='bx bx-radio-circle'></i>Typography</a>
 						</li>
 						<li> <a href="content-text-utilities.html"><i class='bx bx-radio-circle'></i>Text Utilities</a>
 						</li>
