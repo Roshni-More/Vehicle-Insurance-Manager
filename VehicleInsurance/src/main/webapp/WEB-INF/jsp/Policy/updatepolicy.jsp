@@ -73,11 +73,12 @@
                             </div>
 
                             <!-- End Date -->
-                            <div class="row mb-3">
+                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label">End Date</label>
                                 <div class="col-sm-9">
-                                    <input type="date" class="form-control" name="endDate"
-                                           value="${policy.endDate}" required>
+                                    <input type="date" class="form-control" name="expiryDate"
+                                              value="${policy.expiryDate}" required>
+
                                 </div>
                             </div>
 

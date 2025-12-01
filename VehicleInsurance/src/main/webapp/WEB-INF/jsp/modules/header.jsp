@@ -94,7 +94,7 @@
 					<ul>
 						<li> <a href="policyadd"><i class='bx bx-radio-circle'></i>PolicyAdd</a>
 						</li>
-						<li> <a href="Policyshow"><i class='bx bx-radio-circle'></i>Typography</a>
+						<li> <a href="Policyshow"><i class='bx bx-radio-circle'></i>Policy-List</a>
 						</li>
 						<li> <a href="content-text-utilities.html"><i class='bx bx-radio-circle'></i>Text Utilities</a>
 						</li>

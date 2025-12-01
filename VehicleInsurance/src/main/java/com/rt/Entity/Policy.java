@@ -1,14 +1,25 @@
 package com.rt.Entity;
 
+import java.time.LocalDate;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class Policy {
 
 	private int policyId;
 	private int vehicleId;
 	private String policyType;
 	private String startDate;
-	private String endDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate expiryDate;
 	private double premium;
 	private int userId;
+	private int isActive;
+	private String status;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate renewalDate;
+	private int renewCount;
+
 	private Vehicle vehicle;
 
 	public int getPolicyId() {
@@ -43,12 +54,12 @@ public class Policy {
 		this.startDate = startDate;
 	}
 
-	public String getEndDate() {
-		return endDate;
+	public LocalDate getExpiryDate() {
+		return expiryDate;
 	}
 
-	public void setEndDate(String endDate) {
-		this.endDate = endDate;
+	public void setExpiryDate(LocalDate expiryDate) {
+		this.expiryDate = expiryDate;
 	}
 
 	public double getPremium() {
@@ -65,6 +76,38 @@ public class Policy {
 
 	public void setUserId(int userId) {
 		this.userId = userId;
+	}
+
+	public int getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(int isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public LocalDate getRenewalDate() {
+		return renewalDate;
+	}
+
+	public void setRenewalDate(LocalDate renewalDate) {
+		this.renewalDate = renewalDate;
+	}
+
+	public int getRenewCount() {
+		return renewCount;
+	}
+
+	public void setRenewCount(int renewCount) {
+		this.renewCount = renewCount;
 	}
 
 	public Vehicle getVehicle() {
