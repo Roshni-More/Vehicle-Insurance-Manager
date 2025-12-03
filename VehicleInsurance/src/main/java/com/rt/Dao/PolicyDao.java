@@ -124,4 +124,43 @@ public class PolicyDao {
 		String sql = "UPDATE policytable SET isActive = 0 WHERE policyId = ?";
 		return template.update(sql, policyId) > 0;
 	}
+
+	public List<Policy> getAllPolicies() {
+		String sql = "SELECT p.*, v.vehicleName, v.model, v.vehicleNumber " + "FROM policytable p "
+				+ "JOIN vehicletable v ON p.vehicleId = v.vehicleId " + "WHERE p.isActive = 1";
+
+		return template.query(sql, new RowMapper<Policy>() {
+			@Override
+			public Policy mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+				Policy p = new Policy();
+
+				p.setPolicyId(rs.getInt("policyId"));
+				p.setVehicleId(rs.getInt("vehicleId"));
+				p.setPolicyType(rs.getString("policyType"));
+				p.setStartDate(rs.getString("startDate"));
+				p.setPremium(rs.getDouble("premium"));
+				p.setUserId(rs.getInt("userId"));
+				p.setStatus(rs.getString("status"));
+				p.setExpiryDate(rs.getDate("expiryDate").toLocalDate());
+				p.setRenewCount(rs.getInt("renewCount"));
+
+				java.sql.Date renewDate = rs.getDate("renewalDate");
+				if (renewDate != null) {
+					p.setRenewalDate(renewDate.toLocalDate());
+				}
+
+				// VEHICLE object
+				Vehicle v = new Vehicle();
+				v.setVehicleId(rs.getInt("vehicleId"));
+				v.setVehicleName(rs.getString("vehicleName"));
+				v.setModel(rs.getString("model"));
+				v.setVehicleNumber(rs.getString("vehicleNumber"));
+
+				p.setVehicle(v);
+
+				return p;
+			}
+		});
+	}
 }

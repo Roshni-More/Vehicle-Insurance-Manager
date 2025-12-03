@@ -96,20 +96,19 @@
 						</li>
 						<li> <a href="Policyshow"><i class='bx bx-radio-circle'></i>Policy-List</a>
 						</li>
-						<li> <a href="content-text-utilities.html"><i class='bx bx-radio-circle'></i>Text Utilities</a>
-						</li>
+						
 					</ul>
 				</li>
 				<li>
 					<a class="has-arrow" href="javascript:;">
-						<div class="parent-icon"> <i class="bx bx-donate-blood"></i>
+						<div class="parent-icon"> <i class="bx bx-file"></i>
 						</div>
-						<div class="menu-title">Icons</div>
+						<div class="menu-title">Claims</div>
 					</a>
 					<ul>
-						<li> <a href="icons-line-icons.html"><i class='bx bx-radio-circle'></i>Line Icons</a>
+						<li> <a href="addclaims"><i class='bx bx-radio-circle'></i>Add-claims</a>
 						</li>
-						<li> <a href="icons-boxicons.html"><i class='bx bx-radio-circle'></i>Boxicons</a>
+						<li> <a href="claimshow"><i class='bx bx-radio-circle'></i>claims-list</a>
 						</li>
 						<li> <a href="icons-feather-icons.html"><i class='bx bx-radio-circle'></i>Feather Icons</a>
 						</li>

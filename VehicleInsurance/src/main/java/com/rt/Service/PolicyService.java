@@ -37,4 +37,8 @@ public class PolicyService {
 
 	}
 
+	public List<Policy> getAllPolicies() {
+		return policydao.getAllPolicies();
+	}
+
 }

@@ -18,6 +18,11 @@
     <servlet-name>default</servlet-name>
     <url-pattern>/resources/*</url-pattern>
 </servlet-mapping>
+ <!-- For serving uploaded claim photos -->
+    <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/claim_docs/*</url-pattern>
+    </servlet-mapping>
 	
 
 </web-app>
