@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -62,7 +63,7 @@ public class PolicyController {
 	}
 
 	// SHOW LIST
-	@RequestMapping("Policyshow")
+	@GetMapping("Policyshow")
 	public String showPolicyList(Model model, HttpSession session) {
 
 		Integer userId = (Integer) session.getAttribute("sessionUserId");
@@ -71,7 +72,8 @@ public class PolicyController {
 		}
 
 		List<Policy> list = policyservice.getPoliciesByUser(userId);
-		model.addAttribute("policyList", list);
+
+		model.addAttribute("list", list);
 
 		return "Policy/policyList";
 	}

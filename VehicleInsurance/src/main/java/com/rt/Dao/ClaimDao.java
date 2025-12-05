@@ -32,10 +32,11 @@ public class ClaimDao {
 			Claim c = new Claim();
 			c.setClaimId(rs.getInt("claimId"));
 			c.setPolicyId(rs.getInt("policyId"));
-			c.setAccidentDate(rs.getDate("accidentDate"));
+			c.setAccidentDate(rs.getString("accidentDate"));
 			c.setClaimAmount(rs.getDouble("claimAmount"));
 			c.setDetails(rs.getString("details"));
 			c.setStatus(rs.getString("status"));
+			c.setImageName(rs.getString("imageName"));
 			c.setIsDeleted(rs.getInt("is_deleted"));
 			return c;
 		});
@@ -48,7 +49,7 @@ public class ClaimDao {
 			Claim c = new Claim();
 			c.setClaimId(rs.getInt("claimId"));
 			c.setPolicyId(rs.getInt("policyId"));
-			c.setAccidentDate(rs.getDate("accidentDate"));
+			c.setAccidentDate(rs.getString("accidentDate"));
 			c.setClaimAmount(rs.getDouble("claimAmount"));
 			c.setDetails(rs.getString("details"));
 			c.setStatus(rs.getString("status"));

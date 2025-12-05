@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,30 +31,41 @@ public class ClaimController {
 
 	// ------------------- SHOW CLAIM FORM -------------------
 	@RequestMapping("addclaims")
-	public String showClaimForm(Model model) {
+	public String showClaimForm(@ModelAttribute Claim claim, Model model) {
 		List<Policy> policyList = policyservice.getAllPolicies();
 		model.addAttribute("policyList", policyList);
+		for (Policy n : policyList) {
+			System.out.println(" the id is " + n.getPolicyId());
+			System.out.println(n.getPolicyType());
+		}
 		model.addAttribute("claim", new Claim());
 		return "Claim/claimForm";
 	}
 
 	// ------------------- INSERT CLAIM -------------------
-	@RequestMapping("ClaimData")
-	public String insertClaim(@ModelAttribute Claim claim, @RequestParam("accidentImage") MultipartFile file,
-			HttpServletRequest request) {
+	@PostMapping("ClaimData")
+	public String insertClaim(@ModelAttribute Claim claim,
+			@RequestParam(value = "imageName", required = false) MultipartFile file, HttpServletRequest request) {
+
+		System.out.println(claim.getPolicyId());
+		if (claim.getPolicyId() == 0) {
+			return "redirect:/addclaims?error=policy";
+		}
 
 		try {
-			if (!file.isEmpty()) {
-				String uploadDir = request.getServletContext().getRealPath("/resources/Upload/");
-
-				File folder = new File(uploadDir);
+			if (file != null && !file.isEmpty()) {
+				String basePath = "/resources/Upload/";
+				String realPath = request.getServletContext().getRealPath(basePath);
+				if (realPath == null) {
+					realPath = new File("src/main/webapp/resources/Upload").getAbsolutePath();
+				}
+				File folder = new File(realPath);
 				if (!folder.exists()) {
 					folder.mkdirs();
 				}
 
-				String fileName = file.getOriginalFilename();
-				file.transferTo(new File(uploadDir + fileName));
-
+				String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+				file.transferTo(new File(folder, fileName));
 				claim.setImageName(fileName);
 			}
 

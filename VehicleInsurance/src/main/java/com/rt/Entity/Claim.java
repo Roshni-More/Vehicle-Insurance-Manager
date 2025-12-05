@@ -1,16 +1,10 @@
 package com.rt.Entity;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 public class Claim {
 
 	private int claimId;
 	private int policyId;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date accidentDate;
-
+	private String accidentDate;
 	private double claimAmount;
 	private String details;
 	private String imageName;
@@ -34,12 +28,12 @@ public class Claim {
 		this.policyId = policyId;
 	}
 
-	public Date getAccidentDate() {
+	public String getAccidentDate() {
 		return accidentDate;
 	}
 
-	public void setAccidentDate(Date accidentDate) {
-		this.accidentDate = accidentDate;
+	public void setAccidentDate(String date) {
+		this.accidentDate = date;
 	}
 
 	public double getClaimAmount() {

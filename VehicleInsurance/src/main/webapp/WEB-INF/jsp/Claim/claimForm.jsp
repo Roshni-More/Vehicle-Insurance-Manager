@@ -14,7 +14,8 @@
                         <h4 class="mb-4 text-center text-primary">File a Claim</h4>
 
                         <!-- Claim Form -->
-                        <form action="ClaimData" method="post" enctype="multipart/form-data">
+                      <form action="${pageContext.request.contextPath}/ClaimData" method="post" enctype="multipart/form-data">
+
                             <input type="hidden" name="action" value="add">
 
                             <!-- Select Policy -->
@@ -22,14 +23,30 @@
                                 <label class="col-sm-3 col-form-label">Select Policy</label>
                                 <div class="col-sm-9">
                                     <select class="form-control" name="policyId" required>
-                                        <option value="">-- Choose Policy --</option>
-                                        <c:forEach var="p" items="${policyList}">
-                                            <option value="${p.policyId}">
-    ${p.policyType} - ${p.vehicle.vehicleName} (${p.vehicle.vehicleNumber})
-</option>
+    <option value="">-- Choose Policy --</option>
+    <c:forEach var="p" items="${policyList}">
+        <option value="${p.policyId}">
+            ${p.policyType} - ${p.vehicle.vehicleName} (${p.vehicle.vehicleNumber})
+        </option>
+    </c:forEach>
+</select> 
+<%-- <div class="row mb-3">
+    <label class="col-sm-3 col-form-label">Select Policy</label>
+    <div class="col-sm-9">
+        <select class="form-control" name="policyId" required>
+            <option value="">-- Choose Policy --</option>
 
-                                        </c:forEach>
-                                    </select>
+            <c:forEach var="p" items="${policyList}">
+                <option value="${p.policyId}"
+                    <c:if test="${claim.policyId == p.policyId}">selected</c:if>>
+                    ${p.policyType} - ${p.vehicle.vehicleName} (${p.vehicle.vehicleNumber})
+                </option>
+            </c:forEach>
+        </select>
+    </div> --%>
+
+
+
                                 </div>
                             </div>
 
@@ -60,7 +77,7 @@
                             <div class="row mb-3">
     <label class="col-sm-3 col-form-label">Accident Photo</label>
     <div class="col-sm-9">
-        <input type="file" class="form-control" name="accidentImage">
+        <input type="file" class="form-control" name="imageName">
     </div>
 </div>
                             

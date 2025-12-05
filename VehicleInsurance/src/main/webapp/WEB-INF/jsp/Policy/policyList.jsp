@@ -28,7 +28,7 @@
                             </thead>
 
                             <tbody>
-    <c:forEach var="p" items="${policyList}">
+    <c:forEach var="p" items="${list}">
         <tr>
             <!-- Vehicle Details -->
             <td>
