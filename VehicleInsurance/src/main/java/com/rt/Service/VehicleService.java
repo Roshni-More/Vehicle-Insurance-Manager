@@ -19,10 +19,6 @@ public class VehicleService {
 		return vehicledao.vehicleInsert(vehicle);
 	}
 
-	public List<Vehicle> getAllVehicle(Integer userId) {
-		return vehicledao.getAllVehicle(userId);
-	}
-
 	public Vehicle getVehicleById(int vehicleId) {
 
 		return vehicledao.getVehicleById(vehicleId);
@@ -37,8 +33,16 @@ public class VehicleService {
 		return vehicledao.deleteVehicledata(vehicleId);
 	}
 
-	public List<Vehicle> getVehiclesByUser(int userId) {
+	public List<Vehicle> getAllVehicle(Integer userId) {
+		return vehicledao.getAllVehicle(userId);
+	}
 
+	public List<Vehicle> getAllVehicle1(Integer userId) {
+		return vehicledao.getAllVehicle1(userId);
+	}
+
+	// 👤 USER-WISE VEHICLES (IMPORTANT)
+	public List<Vehicle> getVehiclesByUser(Integer userId) {
 		return vehicledao.getVehiclesByUser(userId);
 	}
 

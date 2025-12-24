@@ -19,20 +19,24 @@ public class VehicleDao {
 	private JdbcTemplate template;
 
 	public boolean vehicleInsert(Vehicle vehicle) {
-		String sql = "INSERT INTO vehicletable "
-				+ "(vehicleName, model, vehicleNumber, vehicleType, purchaseYear, engineNo, customerId, userId,isactive) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?,1)";
+		String sql = "INSERT INTO vehicles "
+				+ "(vehicleName, model, vehicleNumber, vehicleType, purchaseYear, engineNo, userId, adminId, isactive) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
-		int result = template.update(sql, vehicle.getVehicleName(), vehicle.getModel(), vehicle.getVehicleNumber(),
-				vehicle.getVehicleType(), vehicle.getPurchaseYear(), vehicle.getEngineNo(), vehicle.getCustomerId(),
-				vehicle.getUserId());
+		try {
+			int result = template.update(sql, vehicle.getVehicleName(), vehicle.getModel(), vehicle.getVehicleNumber(),
+					vehicle.getVehicleType(), vehicle.getPurchaseYear(), vehicle.getEngineNo(), vehicle.getUserId(),
+					vehicle.getAdminId());
 
-		return result > 0;
+			return result > 0;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public List<Vehicle> getAllVehicle(Integer userId) {
-
-		String sql = "SELECT * FROM vehicletable WHERE userId = ? AND isactive = 1";
+		String sql = "SELECT * FROM vehicles WHERE adminId = ? AND isactive = 1";
 
 		return template.query(sql, new RowMapper<Vehicle>() {
 
@@ -48,8 +52,8 @@ public class VehicleDao {
 				v.setVehicleType(rs.getString("vehicleType"));
 				v.setPurchaseYear(rs.getInt("purchaseYear"));
 				v.setEngineNo(rs.getString("engineNo"));
-				v.setCustomerId(rs.getInt("customerId"));
 				v.setUserId(rs.getInt("userId"));
+				v.setAdminId(rs.getInt("adminId"));
 
 				return v;
 			}
@@ -57,7 +61,7 @@ public class VehicleDao {
 	}
 
 	public Vehicle getVehicleById(int vehicleId) {
-		String sql = "SELECT * FROM vehicletable WHERE vehicleId = ? AND isactive = 1";
+		String sql = "SELECT * FROM vehicles WHERE vehicleId = ? AND isactive = 1";
 
 		try {
 
@@ -74,8 +78,8 @@ public class VehicleDao {
 					v.setVehicleType(rs.getString("vehicleType"));
 					v.setPurchaseYear(rs.getInt("purchaseYear"));
 					v.setEngineNo(rs.getString("engineNo"));
-					v.setCustomerId(rs.getInt("customerId"));
 					v.setUserId(rs.getInt("userId"));
+					v.setAdminId(rs.getInt("adminId"));
 
 					return v;
 				}
@@ -88,27 +92,43 @@ public class VehicleDao {
 	}
 
 	public boolean updateVehicle(Vehicle vehicle) {
-		String sql = "UPDATE vehicletable SET " + "vehicleName = ?, " + "model = ?, " + "vehicleNumber = ?, "
-				+ "vehicleType = ?, " + "purchaseYear = ?, " + "engineNo = ?, " + "customerId = ? "
-				+ "WHERE vehicleId = ? AND userId = ?";
+		String sql = "UPDATE vehicles SET " + "vehicleName=?, model=?, vehicleNumber=?, vehicleType=?, "
+				+ "purchaseYear=?, engineNo=? " + "WHERE vehicleId=?";
 
 		int result = template.update(sql, vehicle.getVehicleName(), vehicle.getModel(), vehicle.getVehicleNumber(),
-				vehicle.getVehicleType(), vehicle.getPurchaseYear(), vehicle.getEngineNo(), vehicle.getCustomerId(),
-				vehicle.getVehicleId(), vehicle.getUserId());
+				vehicle.getVehicleType(), vehicle.getPurchaseYear(), vehicle.getEngineNo(), vehicle.getVehicleId());
 
 		return result > 0;
 	}
 
 	public Object deleteVehicledata(int vehicleId) {
-		String sql = "UPDATE vehicletable SET isactive = 0 WHERE vehicleId = ?";
+		String sql = "UPDATE vehicles SET isactive = 0 WHERE vehicleId = ?";
 
 		int result = template.update(sql, vehicleId);
 
 		return result > 0;
 	}
 
-	public List<Vehicle> getVehiclesByUser(int userId) {
-		String sql = "SELECT * FROM vehicletable WHERE userId = ? AND isactive = 1";
+	public List<Vehicle> getVehiclesByUser(Integer userId) {
+		String sql = "SELECT * FROM vehicles WHERE adminId = ? AND isactive = 1";
+
+		return template.query(sql, (rs, rowNum) -> {
+			Vehicle v = new Vehicle();
+			v.setVehicleId(rs.getInt("vehicleId"));
+			v.setVehicleName(rs.getString("vehicleName"));
+			v.setModel(rs.getString("model"));
+			v.setVehicleNumber(rs.getString("vehicleNumber"));
+			v.setVehicleType(rs.getString("vehicleType"));
+			v.setPurchaseYear(rs.getInt("purchaseYear"));
+			v.setEngineNo(rs.getString("engineNo"));
+			v.setUserId(rs.getInt("userId"));
+			v.setAdminId(rs.getInt("adminId"));
+			return v;
+		}, userId);
+	}
+
+	public List<Vehicle> getAllVehicle1(Integer userId) {
+		String sql = "SELECT * FROM vehicles WHERE adminId = ? AND isactive = 1";
 
 		return template.query(sql, new RowMapper<Vehicle>() {
 
@@ -124,12 +144,16 @@ public class VehicleDao {
 				v.setVehicleType(rs.getString("vehicleType"));
 				v.setPurchaseYear(rs.getInt("purchaseYear"));
 				v.setEngineNo(rs.getString("engineNo"));
-				v.setCustomerId(rs.getInt("customerId"));
 				v.setUserId(rs.getInt("userId"));
-
+				v.setAdminId(rs.getInt("adminId"));
 				return v;
 			}
 		}, userId);
+	}
+
+	public Integer getUserIdByVehicleId(int vehicleId) {
+		String sql = "SELECT userId FROM vehicles WHERE vehicleId = ?";
+		return template.queryForObject(sql, Integer.class, vehicleId);
 	}
 
 }

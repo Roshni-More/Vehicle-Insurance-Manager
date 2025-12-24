@@ -1,13 +1,15 @@
 package com.rt.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,98 +17,128 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.rt.Entity.Claim;
-import com.rt.Entity.Policy;
 import com.rt.Service.ClaimService;
 import com.rt.Service.PolicyService;
 
 @Controller
-
 public class ClaimController {
 
 	@Autowired
-	ClaimService claimservice;
+	private ClaimService claimService;
 
 	@Autowired
-	PolicyService policyservice;
+	private PolicyService policyService;
 
-	// ------------------- SHOW CLAIM FORM -------------------
-	@RequestMapping("addclaims")
-	public String showClaimForm(@ModelAttribute Claim claim, Model model) {
-		List<Policy> policyList = policyservice.getAllPolicies();
-		model.addAttribute("policyList", policyList);
-		for (Policy n : policyList) {
-			System.out.println(" the id is " + n.getPolicyId());
-			System.out.println(n.getPolicyType());
-		}
-		model.addAttribute("claim", new Claim());
-		return "Claim/claimForm";
+	// Upload directory for accident images
+	private final String uploadDir = "D:/VehicleInsuranceUploads/";
+
+	// 1️⃣ Show Add Claim Form
+	@GetMapping("/insertclaims")
+	public String showClaimForm(Model m) {
+		m.addAttribute("policyList", policyService.getAllPolicies());
+		m.addAttribute("claim", new Claim());
+		return "Claim/addclaims";
 	}
 
-	// ------------------- INSERT CLAIM -------------------
-	@PostMapping("ClaimData")
-	public String insertClaim(@ModelAttribute Claim claim,
-			@RequestParam(value = "imageName", required = false) MultipartFile file, HttpServletRequest request) {
+	// 2️⃣ Save Claim (Add New)
+	@PostMapping("/saveClaim")
+	public String saveClaim(@ModelAttribute Claim c,
+			@RequestParam(value = "imageFile", required = false) MultipartFile file, HttpSession session)
+			throws IOException {
 
-		System.out.println(claim.getPolicyId());
-		if (claim.getPolicyId() == 0) {
-			return "redirect:/addclaims?error=policy";
+		// 🔥 STEP 1: session se userId lo
+		Integer userId = (Integer) session.getAttribute("sessionUserId");
+		if (userId == null) {
+			return "redirect:/login";
 		}
 
-		try {
-			if (file != null && !file.isEmpty()) {
-				String basePath = "/resources/Upload/";
-				String realPath = request.getServletContext().getRealPath(basePath);
-				if (realPath == null) {
-					realPath = new File("src/main/webapp/resources/Upload").getAbsolutePath();
-				}
-				File folder = new File(realPath);
-				if (!folder.exists()) {
-					folder.mkdirs();
-				}
+		// 🔥 STEP 2: claim me userId set karo (THIS WAS MISSING)
+		c.setAdminId(userId);
 
-				String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-				file.transferTo(new File(folder, fileName));
-				claim.setImageName(fileName);
-			}
-
-			claimservice.insertClaim(claim);
-
-		} catch (Exception e) {
-			e.printStackTrace();
+		// 🔥 STEP 3: image handling
+		if (file != null && !file.isEmpty()) {
+			String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+			File f = new File(uploadDir + fileName);
+			file.transferTo(f);
+			c.setImageName(fileName);
+		} else {
+			c.setImageName(null);
 		}
+
+		c.setStatus("Pending");
+
+		claimService.saveClaim(c);
+		return "redirect:/claimshow";
+	}
+
+	// 3️⃣ Show All Claims
+	@GetMapping("/claimshow")
+	public String showClaims(Model m) {
+		List<Claim> list = claimService.getAllClaims();
+		m.addAttribute("claimList", list);
+		return "Claim/claimshow";
+	}
+
+	// 4️⃣ Delete Claim
+	@GetMapping("/deleteClaim")
+	public String deleteClaim(@RequestParam int id) {
+		claimService.deleteClaim(id);
+		return "redirect:/claimshow";
+	}
+
+	// 5️⃣ Show Update Form (Edit Claim)
+	@GetMapping("/editClaim")
+	public String editClaim(@RequestParam int id, Model m) {
+		Claim c = claimService.getClaimById(id);
+		m.addAttribute("claim", c);
+		m.addAttribute("policyList", policyService.getAllPolicies()); // For policy
+		// dropdown
+		return "Claim/editclaim";
+	}
+
+	// 7️⃣ Update Claim (WITHOUT IMAGE)
+	@PostMapping("/updateClaim")
+	public String updateClaim(@ModelAttribute Claim c, HttpSession session) {
+
+		Integer userId = (Integer) session.getAttribute("sessionUserId");
+		if (userId == null) {
+			return "redirect:/login";
+		}
+
+		// 🔥 old data fetch (to keep status, image, userId safe)
+		Claim oldClaim = claimService.getClaimById(c.getClaimId());
+
+		c.setImageName(oldClaim.getImageName()); // image unchanged
+		c.setStatus(oldClaim.getStatus()); // status unchanged
+		c.setUserId(oldClaim.getUserId()); // user unchanged
+
+		claimService.updateClaim(c);
 
 		return "redirect:/claimshow";
 	}
 
-	// ------------------- SHOW ALL CLAIMS -------------------
-	@RequestMapping("claimshow")
-	public String showClaimList(Model model) {
-		List<Claim> list = claimservice.getAllClaims();
-		model.addAttribute("claimList", list);
-		return "Claim/ClaimList";
-	}
+	// 6️⃣ Update Claim
+	@RequestMapping("/updateClaimStatus")
+	public String updateClaimStatus(@RequestParam int claimId, @RequestParam String status, HttpSession session) {
 
-	// ------------------- EDIT CLAIM -------------------
-	@RequestMapping("editclaim")
-	public String editClaim(@RequestParam("claimId") int claimId, Model model) {
-		Claim claim = claimservice.getClaimById(claimId);
-		List<Policy> policyList = policyservice.getAllPolicies();
-		model.addAttribute("policyList", policyList);
-		model.addAttribute("claim", claim);
-		return "Claim/updateClaim";
-	}
+		Integer adminId = (Integer) session.getAttribute("sessionUserId");
+		if (adminId == null) {
+			return "redirect:/login";
+		}
 
-	// ------------------- UPDATE CLAIM -------------------
-	@RequestMapping("modifyClaim")
-	public String updateClaim(@ModelAttribute Claim claim) {
-		claimservice.updateClaim(claim);
+		Claim claim = claimService.getClaimById(claimId);
+
+		if ("APPROVED".equalsIgnoreCase(status)) {
+			claim.setStatus("APPROVED");
+		} else if ("REJECTED".equalsIgnoreCase(status)) {
+			claim.setStatus("REJECTED");
+		} else {
+			claim.setStatus("PENDING");
+		}
+
+		claimService.updateClaim(claim);
+
 		return "redirect:/claimshow";
 	}
 
-	// ------------------- SOFT DELETE -------------------
-	@RequestMapping("deleteclaim")
-	public String deleteClaim(@RequestParam("claimId") int claimId) {
-		claimservice.deleteClaim(claimId);
-		return "redirect:/claimshow";
-	}
 }

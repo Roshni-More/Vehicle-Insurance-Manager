@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Login / Sign-Up</title>
+<title>Login Admin</title>
 
 <!-- ✅ Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@
 
             <div class="card login-card">
                 <div class="card-header text-center bg-primary text-white">
-                    <h4 id="formTitle">LOGIN</h4>
+                    <h4 id="formTitle"> Admin-LOGIN</h4>
                 </div>
 
                 <div class="card-body p-4">
@@ -60,7 +60,7 @@
                     </c:if>
 
                     <!-- ✅ LOGIN FORM -->
-                    <form id="loginForm" action="loginpage" method="post" class="needs-validation" novalidate>
+                    <form id="loginForm" action="adminpage" method="post" class="needs-validation" novalidate>
 
                         <!-- ✅ User Name -->
                         <div class="mb-3">
@@ -151,6 +151,14 @@
                             <span class="toggle-link" onclick="showLogin()">Login</span>
                         </p>
                     </form>
+                    <div class="text-center">
+					    <span class="text-muted">For User Login </span>
+					    <a href="${pageContext.request.contextPath}/getuserlogin"
+					       class="fw-bold text-decoration-none">
+					        Click Here
+					    </a>
+					</div>
+
 
                 </div>
             </div>

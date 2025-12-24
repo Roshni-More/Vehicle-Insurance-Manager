@@ -13,8 +13,8 @@
 							<table id="example" class="table table-striped table-bordered" style="width:100%">
 								<thead>
                                 <tr>
-                                    <th>Customer ID</th>
-                                    <th>Customer Name</th>
+                                    <th>User ID</th>
+                                    <th>User Name</th>
                                     <th>Phone No</th>
                                     <th>Email</th>
                                     <th>Address</th>
@@ -24,15 +24,15 @@
                             <tbody>
                                 <c:forEach var="cust" items="${customerList}">
                                     <tr>
-                                        <td>${cust.customerId}</td>
-                                        <td>${cust.customerName}</td>
+                                        <td>${cust.userId}</td>
+                                        <td>${cust.userName}</td>
                                         <td>${cust.phoneNo}</td>
                                         <td>${cust.emailAddress}</td>
                                         <td>${cust.address}</td>
                                         <td>
-                                            <a href="editCustomer?customerId=${cust.customerId}" 
+                                            <a href="editCustomer?userId=${cust.userId}" 
                                                class="btn btn-sm btn-primary">Update</a>
-                                            <a href="deleteCustomer?customerId=${cust.customerId}" 
+                                            <a href="deleteCustomer?userId=${cust.userId}" 
                                                class="btn btn-sm btn-danger"
                                                onclick="return confirm('Are you sure you want to delete this customer?');">
                                                Delete

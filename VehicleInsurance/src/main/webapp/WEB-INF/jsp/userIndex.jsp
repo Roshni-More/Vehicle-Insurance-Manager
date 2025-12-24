@@ -1,17 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="modules/header.jsp"/>
+<jsp:include page="modules2/header.jsp"/>
 
 		<!--start page wrapper -->
 		<div class="page-wrapper">
 			<div class="page-content">
+			
+			<!-- Logged-in user details -->
+			
 				<div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
                    <div class="col">
 					 <div class="card radius-10 border-start border-0 border-4 border-info">
 						<div class="card-body">
 							<div class="d-flex align-items-center">
 								<div>
-									<p class="mb-0 text-secondary">Total Orders</p>
+									<p class="mb-0 text-secondary">My Vehicle</p>
 									<h4 class="my-1 text-info">4805</h4>
 									<p class="mb-0 font-13">+2.5% from last week</p>
 								</div>
@@ -241,6 +244,6 @@
 		</div>
 	  </div>
     <!-- end search modal -->
-<jsp:include page="modules/footer.jsp"/>
+<jsp:include page="modules2/footer.jsp"/>
 
 	

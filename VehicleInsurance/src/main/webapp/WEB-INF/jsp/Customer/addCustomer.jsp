@@ -24,7 +24,7 @@
                             <div class="row mb-3">
                                 <label for="customerName" class="col-sm-3 col-form-label">Customer Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Enter Customer Name" required>
+                                    <input type="text" class="form-control" id="customerName" name="userName" placeholder="Enter Customer Name" required>
                                 </div>
                             </div>
 

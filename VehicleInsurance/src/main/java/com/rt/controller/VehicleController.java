@@ -37,7 +37,7 @@ public class VehicleController {
 		List<Customer> customers = customerservice.getAllCustomer(userId);
 		System.out.println("Customers loaded: " + customers.size());
 		for (Customer c : customers) {
-			System.out.println(c.getCustomerId() + " " + c.getCustomerName());
+
 		}
 		model.addAttribute("customerList", customers);
 		return "Vehicle/addVehicle";
@@ -50,8 +50,15 @@ public class VehicleController {
 		if (userId == null) {
 			return "redirect:/login";
 		}
-		vehicle.setUserId(userId);
+		// --- IMPORTANT: derive userId from the selected customer ---
+		// Using existing service to get customer details:
+		Customer c = customerservice.getCustomerById(vehicle.getUserId());
+		if (c == null) {
+			model.addAttribute("fail", "Selected customer not found.");
+			return "redirect:/addvehicle";
+		}
 
+		vehicle.setAdminId(c.getAdminId()); // set vehicle's owner userId based on the customer.owner
 		boolean isadded = vehicleservice.vehicleInsert(vehicle);
 
 		if (isadded) {
@@ -101,6 +108,11 @@ public class VehicleController {
 		Integer userId = (Integer) session.getAttribute("sessionUserId");
 		if (userId == null) {
 			return "redirect:/login";
+		}
+		// Ensure the vehicle's userId matches the customer owner before update
+		Customer c = customerservice.getCustomerById(vehicle.getUserId());
+		if (c == null) {
+			return "redirect:/myvehicle";
 		}
 
 		vehicle.setUserId(userId);

@@ -24,6 +24,9 @@
 	<link href="resources/assets/css/app.css" rel="stylesheet">
 	<link href="resources/assets/css/icons.css" rel="stylesheet">
 	<!-- Theme Style CSS -->
+	<!-- DataTables CSS -->
+<link rel="stylesheet" 
+href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 	<link rel="stylesheet" href="resources/assets/css/dark-theme.css"/>
 	<link rel="stylesheet" href="resources/assets/css/semi-dark.css"/>
 	<link rel="stylesheet" href="resources/assets/css/header-colors.css"/>
@@ -58,7 +61,7 @@
 				
 				
 				
-				<li>
+				 <li>
 					<a href="javascript:;" class="has-arrow">
 						<div class="parent-icon"><i class='bx bx-user'></i>
 						</div>
@@ -70,7 +73,7 @@
 						<li> <a href="customershow"><i class='bx bx-radio-circle'></i>Customerlist</a>
 						</li>
 					</ul>
-				</li>
+				</li> 
 				<li>
 					<a class="has-arrow" href="javascript:;">
 						<div class="parent-icon"><i class='bx bx-car'></i>
@@ -94,6 +97,8 @@
 					<ul>
 						<li> <a href="policyadd"><i class='bx bx-radio-circle'></i>PolicyAdd</a>
 						</li>
+						<li> <a href="policyrequests"><i class='bx bx-radio-circle'></i>Policy-Request</a>
+						</li>
 						<li> <a href="Policyshow"><i class='bx bx-radio-circle'></i>Policy-List</a>
 						</li>
 						
@@ -106,12 +111,11 @@
 						<div class="menu-title">Claims</div>
 					</a>
 					<ul>
-						<li> <a href="addclaims"><i class='bx bx-radio-circle'></i>Add-claims</a>
+						<li> <a href="insertclaims"><i class='bx bx-radio-circle'></i>Add-claims</a>
 						</li>
 						<li> <a href="claimshow"><i class='bx bx-radio-circle'></i>claims-list</a>
 						</li>
-						<li> <a href="icons-feather-icons.html"><i class='bx bx-radio-circle'></i>Feather Icons</a>
-						</li>
+						
 					</ul>
 				</li>
 				<li>
@@ -707,7 +711,7 @@
 							<li>
 								<div class="dropdown-divider mb-0"></div>
 							</li>
-							<li><a class="dropdown-item d-flex align-items-center" href="logout"><i class="bx bx-log-out-circle"></i><span>Logout</span></a>
+							<li><a class="dropdown-item d-flex align-items-center" href="adminlogout"><i class="bx bx-log-out-circle"></i><span>Logout</span></a>
 							</li>
 						</ul>
 					</div>

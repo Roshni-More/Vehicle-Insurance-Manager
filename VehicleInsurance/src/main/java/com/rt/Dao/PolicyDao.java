@@ -22,25 +22,32 @@ public class PolicyDao {
 	public boolean insertPolicy(Policy policy) {
 
 		if (policy.getStatus() == null || policy.getStatus().isEmpty()) {
-			policy.setStatus("Pending");
+			policy.setStatus("PENDING");
 		}
 
-		String sql = "INSERT INTO policytable "
-				+ "(vehicleId, policyType, startDate, premium, userId, status, expiryDate, renewCount, renewalDate) "
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO policyes "
+				+ "(vehicleId, userId, policyType, startDate, premium, adminId, status, expiryDate, renewCount, renewalDate) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-		int result = template.update(sql, policy.getVehicleId(), policy.getPolicyType(), policy.getStartDate(),
-				policy.getPremium(), policy.getUserId(), policy.getStatus(), policy.getExpiryDate(),
-				policy.getRenewCount(), policy.getRenewalDate());
+		int result = template.update(sql, policy.getVehicleId(), policy.getUserId(), // 👈 IMPORTANT
+				policy.getPolicyType(), policy.getStartDate(), policy.getPremium(), policy.getAdminId(),
+				policy.getStatus(), policy.getExpiryDate(), policy.getRenewCount(), policy.getRenewalDate());
 
 		return result > 0;
+	}
+
+	public int getUserIdByPolicyId(int policyId) {
+
+		String sql = "SELECT userId FROM policyes WHERE policyId = ?";
+
+		return template.queryForObject(sql, Integer.class, policyId);
 	}
 
 	// SHOW LIST
 	public List<Policy> getPoliciesByUser(Integer userId) {
 
-		String sql = "SELECT p.*, v.vehicleName, v.model, v.vehicleNumber " + "FROM policytable p "
-				+ "JOIN vehicletable v ON p.vehicleId = v.vehicleId " + "WHERE p.userId = ? AND p.isActive = 1";
+		String sql = "SELECT p.*, v.vehicleName, v.model, v.vehicleNumber " + "FROM policyes p "
+				+ "JOIN vehicles v ON p.vehicleId = v.vehicleId " + "WHERE p.adminId = ? AND p.isActive = 1";
 
 		return template.query(sql, new RowMapper<Policy>() {
 			@Override
@@ -53,7 +60,7 @@ public class PolicyDao {
 				p.setPolicyType(rs.getString("policyType"));
 				p.setStartDate(rs.getString("startDate"));
 				p.setPremium(rs.getDouble("premium"));
-				p.setUserId(rs.getInt("userId"));
+				p.setAdminId(rs.getInt("adminId"));
 				p.setStatus(rs.getString("status"));
 				p.setExpiryDate(rs.getDate("expiryDate").toLocalDate());
 				p.setRenewCount(rs.getInt("renewCount"));
@@ -76,7 +83,7 @@ public class PolicyDao {
 
 	// GET SINGLE
 	public Policy getPolicyById(int policyId) {
-		String sql = "SELECT * FROM policytable WHERE policyId = ? AND isActive = 1";
+		String sql = "SELECT * FROM policyes WHERE policyId = ? AND isActive = 1";
 
 		try {
 			return template.queryForObject(sql, new Object[] { policyId }, new RowMapper<Policy>() {
@@ -89,7 +96,7 @@ public class PolicyDao {
 					p.setStartDate(rs.getString("startDate"));
 
 					p.setPremium(rs.getDouble("premium"));
-					p.setUserId(rs.getInt("userId"));
+					p.setAdminId(rs.getInt("adminId"));
 					p.setStatus(rs.getString("status"));
 					p.setExpiryDate(rs.getDate("expiryDate").toLocalDate());
 					p.setRenewCount(rs.getInt("renewCount"));
@@ -109,25 +116,25 @@ public class PolicyDao {
 	// UPDATE POLICY
 	public boolean updatePolicy(Policy policy) {
 
-		String sql = "UPDATE policytable "
+		String sql = "UPDATE policyes "
 				+ "SET vehicleId=?, policyType=?, startDate=?, premium=?, status=?, expiryDate=?, renewCount=?, renewalDate=? "
-				+ "WHERE policyId=? AND userId=? AND isActive=1";
+				+ "WHERE policyId=? AND adminId=? AND isActive=1";
 
 		return template.update(sql, policy.getVehicleId(), policy.getPolicyType(), policy.getStartDate(),
 				policy.getPremium(), policy.getStatus(), policy.getExpiryDate(), policy.getRenewCount(),
-				policy.getRenewalDate(), policy.getPolicyId(), policy.getUserId()) > 0;
+				policy.getRenewalDate(), policy.getPolicyId(), policy.getAdminId()) > 0;
 
 	}
 
 	// DELETE (SOFT)
 	public boolean deletePolicy(int policyId) {
-		String sql = "UPDATE policytable SET isActive = 0 WHERE policyId = ?";
+		String sql = "UPDATE policyes SET isActive = 0 WHERE policyId = ?";
 		return template.update(sql, policyId) > 0;
 	}
 
 	public List<Policy> getAllPolicies() {
-		String sql = "SELECT p.*, v.vehicleName, v.model, v.vehicleNumber " + "FROM policytable p "
-				+ "JOIN vehicletable v ON p.vehicleId = v.vehicleId " + "WHERE p.isActive = 1";
+		String sql = "SELECT p.*, v.vehicleName, v.model, v.vehicleNumber " + "FROM policyes p "
+				+ "JOIN vehicles v ON p.vehicleId = v.vehicleId " + "WHERE p.isActive = 1";
 
 		return template.query(sql, new RowMapper<Policy>() {
 			@Override
@@ -140,7 +147,7 @@ public class PolicyDao {
 				p.setPolicyType(rs.getString("policyType"));
 				p.setStartDate(rs.getString("startDate"));
 				p.setPremium(rs.getDouble("premium"));
-				p.setUserId(rs.getInt("userId"));
+				p.setAdminId(rs.getInt("adminId"));
 				p.setStatus(rs.getString("status"));
 				p.setExpiryDate(rs.getDate("expiryDate").toLocalDate());
 				p.setRenewCount(rs.getInt("renewCount"));

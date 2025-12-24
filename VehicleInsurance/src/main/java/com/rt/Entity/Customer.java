@@ -2,31 +2,31 @@ package com.rt.Entity;
 
 public class Customer {
 
-	private String customerId;
-	private String customerName;
+	private Integer userId;
+	private String userName;
 	private String phoneNo;
 	private String emailAddress;
 	private String address;
 	private int isactive;
-	private Signup userId;
+	private Integer adminId; // FIXED: This should be Integer, not Signup object
 
 	public Customer() {
 	}
 
-	public String getCustomerId() {
-		return customerId;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
-	public String getCustomerName() {
-		return customerName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getPhoneNo() {
@@ -53,19 +53,20 @@ public class Customer {
 		this.address = address;
 	}
 
-	public int getisactive() {
+	public int getIsactive() {
 		return isactive;
 	}
 
-	public void setisactive(int isactive) {
+	public void setIsactive(int isactive) {
 		this.isactive = isactive;
 	}
 
-	public Signup getUserId() {
-		return userId;
+	public Integer getAdminId() {
+		return adminId;
 	}
 
-	public void setUserId(Signup userId) {
-		this.userId = userId;
+	public void setAdminId(Integer adminId) {
+		this.adminId = adminId;
 	}
+
 }

@@ -12,7 +12,7 @@ import com.rt.Entity.Customer;
 public class CustomerService {
 
 	@Autowired
-	CustomerDao customerdao;
+	private CustomerDao customerdao;
 
 	public boolean addcustomer(Customer customer) {
 		return customerdao.addcustomer(customer);
@@ -38,4 +38,7 @@ public class CustomerService {
 		return customerdao.getAllCustomer(userId);
 	}
 
+	public List<Integer> getCustomerIdsByUserId(Integer userId) {
+		return customerdao.getCustomerIdsByUserId(userId);
+	}
 }

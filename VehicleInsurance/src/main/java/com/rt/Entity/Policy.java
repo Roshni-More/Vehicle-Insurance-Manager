@@ -13,12 +13,13 @@ public class Policy {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate expiryDate;
 	private double premium;
-	private int userId;
+	private int adminId;
 	private int isActive;
 	private String status;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate renewalDate;
 	private int renewCount;
+	private int userId;
 
 	private Vehicle vehicle;
 
@@ -70,12 +71,12 @@ public class Policy {
 		this.premium = premium;
 	}
 
-	public int getUserId() {
-		return userId;
+	public int getAdminId() {
+		return adminId;
 	}
 
-	public void setUserId(int userId) {
-		this.userId = userId;
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
 	}
 
 	public int getIsActive() {
@@ -117,4 +118,13 @@ public class Policy {
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 }

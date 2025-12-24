@@ -75,11 +75,11 @@
                             <div class="row mb-3">
                                 <label class="col-sm-3 col-form-label">Select Customer</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="customerId" required>
+                                    <select class="form-control" name="userId" required>
                                         <option value="">-- Choose Customer --</option>
                                         <c:forEach var="c" items="${customerList}">
-                                            <option value="${c.customerId}">
-                                                ${c.customerName} - ${c.phoneNo}
+                                            <option value="${c.userId}">
+                                                ${c.userName} - ${c.phoneNo}
                                             </option>
                                         </c:forEach>
                                     </select>

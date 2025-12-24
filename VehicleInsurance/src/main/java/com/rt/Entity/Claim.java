@@ -1,23 +1,32 @@
 package com.rt.Entity;
 
 public class Claim {
-
 	private int claimId;
 	private int policyId;
+	private int userId;
 	private String accidentDate;
 	private double claimAmount;
 	private String details;
 	private String imageName;
-
 	private String status;
-	private int isDeleted;
+	private int is_deleted;
+	private int adminId;
 
+	// Getters and Setters
 	public int getClaimId() {
 		return claimId;
 	}
 
 	public void setClaimId(int claimId) {
 		this.claimId = claimId;
+	}
+
+	public int getAdminId() {
+		return adminId;
+	}
+
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
 	}
 
 	public int getPolicyId() {
@@ -28,12 +37,20 @@ public class Claim {
 		this.policyId = policyId;
 	}
 
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
 	public String getAccidentDate() {
 		return accidentDate;
 	}
 
-	public void setAccidentDate(String date) {
-		this.accidentDate = date;
+	public void setAccidentDate(String accidentDate) {
+		this.accidentDate = accidentDate;
 	}
 
 	public double getClaimAmount() {
@@ -68,11 +85,11 @@ public class Claim {
 		this.status = status;
 	}
 
-	public int getIsDeleted() {
-		return isDeleted;
+	public int getIs_deleted() {
+		return is_deleted;
 	}
 
-	public void setIsDeleted(int isDeleted) {
-		this.isDeleted = isDeleted;
+	public void setIs_deleted(int is_deleted) {
+		this.is_deleted = is_deleted;
 	}
 }

@@ -9,8 +9,8 @@ public class Vehicle {
 	private String vehicleType;
 	private int purchaseYear;
 	private String engineNo;
-	private int customerId;
 	private int userId;
+	private int adminId;
 	private int isactive;
 
 	public Vehicle() {
@@ -73,12 +73,12 @@ public class Vehicle {
 		this.vehicleId = vehicleId;
 	}
 
-	public int getCustomerId() {
-		return customerId;
+	public int getAdminId() {
+		return adminId;
 	}
 
-	public void setCustomerId(int customerId) {
-		this.customerId = customerId;
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
 	}
 
 	public int getUserId() {

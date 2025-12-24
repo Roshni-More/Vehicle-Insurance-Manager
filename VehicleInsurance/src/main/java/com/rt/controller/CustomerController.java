@@ -12,14 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.rt.Entity.Customer;
-import com.rt.Entity.Signup;
 import com.rt.Service.CustomerService;
 
 @Controller
 public class CustomerController {
 
 	@Autowired
-	CustomerService customerservice;
+	private CustomerService customerservice;
 
 	@RequestMapping("add")
 	public String showIndex() {
@@ -29,9 +28,7 @@ public class CustomerController {
 	@RequestMapping("insert")
 	public String insertdata(@ModelAttribute Customer customer, Model model, HttpSession session) {
 		int userId = (int) session.getAttribute("sessionUserId");
-		Signup s = new Signup();
-		s.setSignupid(userId);
-		customer.setUserId(s);
+		customer.setAdminId(userId);
 		customerservice.addcustomer(customer);
 		return "redirect:/customershow";
 	}
@@ -44,7 +41,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping("editCustomer")
-	public String updatedata(@RequestParam("customerId") int customerId, Model model) {
+	public String updatedata(@RequestParam("userId") int customerId, Model model) {
 		Customer customer = customerservice.getCustomerById(customerId);
 		model.addAttribute("customer", customer);
 		return "Customer/Updatecustomer";
@@ -62,7 +59,7 @@ public class CustomerController {
 	}
 
 	@RequestMapping("deleteCustomer")
-	public String deleteCustomer(@RequestParam("customerId") int customerId, Model model) {
+	public String deleteCustomer(@RequestParam("userId") int customerId, Model model) {
 		boolean isDeleted = customerservice.softDeleteCustomer(customerId);
 		if (isDeleted) {
 			model.addAttribute("success", "Customer deleted successfully (soft delete)");
@@ -71,5 +68,4 @@ public class CustomerController {
 		}
 		return "redirect:/customershow";
 	}
-
 }

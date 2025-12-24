@@ -8,8 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.rt.Service.LoginService;
 import com.rt.Entity.Signup;
+import com.rt.Service.LoginService;
 
 @Controller
 public class LoginController {
@@ -17,42 +17,55 @@ public class LoginController {
 	@Autowired
 	LoginService loginservice;
 
-	@RequestMapping("/loginpage")
+	@RequestMapping("/getadminlogin")
+	public String indexpage() {
+		return "Admin/Adminlogin";
+	}
+
+	@RequestMapping("/adminpage")
 	public String logindata(@RequestParam String username, @RequestParam String password, Model model,
 			HttpSession session) {
 
 		Signup user = loginservice.loginform(username, password);
 
 		if (user != null) {
-			session.setAttribute("sessionUserId", user.getSignupid());
-			session.setAttribute("sessionUsername", user.getUsername());
-			session.setAttribute("sessionRole", user.getRole());
 
-			return "index";
+			// ✅ Set session
+			session.setAttribute("sessionUserId", user.getAdminId());
+			session.setAttribute("sessionUsername", user.getUsername());
+			session.setAttribute("sessionUseremail", user.getEmail());
+
+			System.out.println("LOGIN USER ID = " + user.getAdminId());
+			System.out.println("LOGIN USERNAME = " + user.getUsername());
+
+			// ✅ Single dashboard
+			return "Admin/index";
+
 		} else {
 			model.addAttribute("errormsg", "Invalid Username or Password");
-			return "Login";
+			return "Admin/Adminlogin";
 		}
 	}
 
 	@RequestMapping("/signup")
 	public String signup(@RequestParam String username, @RequestParam String password, @RequestParam String email,
+
 			@RequestParam String role, Model model) {
 
 		boolean isAdded = loginservice.signup(username, password, email, role);
 
 		if (isAdded) {
 			model.addAttribute("msg", "Sign-Up Successful! Please Login.");
-			return "Login";
+			return "Adminlogin";
 		} else {
 			model.addAttribute("errormsg", "Error while registering user");
-			return "Login";
+			return "Admin/Adminlogin";
 		}
 	}
 
-	@RequestMapping("/logout")
+	@RequestMapping("/adminlogout")
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "Login";
+		return "Admin/Adminlogin";
 	}
 }

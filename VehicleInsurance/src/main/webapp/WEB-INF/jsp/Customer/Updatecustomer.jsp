@@ -14,14 +14,14 @@
                         <form action="${pageContext.request.contextPath}/updateCustomer" method="post">
 
                             <!-- Hidden Customer ID -->
-                            <input type="hidden" name="customerId" value="${customer.customerId}" />
+                            <input type="hidden" name="userId" value="${customer.userId}" />
 
                             <!-- Customer Name -->
                             <div class="row mb-3">
                                 <label for="customerName" class="col-sm-3 col-form-label">Customer Name</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="customerName" 
-                                           name="customerName" value="${customer.customerName}" 
+                                    <input type="text" class="form-control" id="userName" 
+                                           name="userName" value="${customer.userName}" 
                                            placeholder="Enter Customer Name" required>
                                 </div>
                             </div>

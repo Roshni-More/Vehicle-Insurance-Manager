@@ -15,12 +15,12 @@ public class Logindao {
 
 	public Signup loginform(String username, String password) {
 		try {
-			String sql = "SELECT * FROM signup WHERE username = ? AND password = ?";
+			String sql = "SELECT * FROM admins WHERE username = ? AND password = ?";
 
 			return template.queryForObject(sql, new Object[] { username, password }, (rs, rowNum) -> {
 
 				Signup s = new Signup();
-				s.setSignupid(rs.getInt("signupid"));
+				s.setAdminId(rs.getInt("adminId"));
 				s.setUsername(rs.getString("username"));
 				s.setEmail(rs.getString("email"));
 				s.setPassword(rs.getString("password"));
@@ -36,7 +36,7 @@ public class Logindao {
 
 	public boolean signup(String username, String password, String email, String role) {
 		try {
-			String sql = "INSERT INTO signup (username, password, email, role) VALUES (?, ?, ?, ?)";
+			String sql = "INSERT INTO admins (username, password, email, role) VALUES (?, ?, ?, ?)";
 			int result = template.update(sql, username, password, email, role);
 			return result > 0;
 		} catch (Exception e) {

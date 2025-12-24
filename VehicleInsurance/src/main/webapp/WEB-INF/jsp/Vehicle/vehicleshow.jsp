@@ -38,7 +38,7 @@
                                         <td>${v.vehicleType}</td>
                                         <td>${v.purchaseYear}</td>
                                         <td>${v.engineNo}</td>
-                                        <td>${v.customerId}</td>
+                                        <td>${v.userId}</td>
 
                                         <td>
                                             <a href="editvehicle?vehicleId=${v.vehicleId}" 

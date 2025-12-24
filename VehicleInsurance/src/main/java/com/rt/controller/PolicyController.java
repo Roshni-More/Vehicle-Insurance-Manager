@@ -52,8 +52,8 @@ public class PolicyController {
 			return "redirect:/login";
 		}
 
-		policy.setUserId(userId);
-		policy.setStatus("Pending");
+		policy.setAdminId(userId);
+		policy.setStatus("PENDING");
 		policy.setExpiryDate(LocalDate.now().plusYears(1));
 		policy.setRenewCount(0);
 
@@ -102,7 +102,7 @@ public class PolicyController {
 
 		Integer userId = (Integer) session.getAttribute("sessionUserId");
 
-		policy.setUserId(userId);
+		policy.setAdminId(userId);
 		policyservice.updatePolicy(policy);
 
 		return "redirect:/Policyshow";
@@ -134,9 +134,34 @@ public class PolicyController {
 		oldPolicy.setRenewCount(oldPolicy.getRenewCount() + 1);
 		oldPolicy.setRenewalDate(LocalDate.now());
 
-		oldPolicy.setUserId(userId);
+		oldPolicy.setAdminId(userId);
 		policyservice.updatePolicy(oldPolicy);
 
 		return "redirect:/Policyshow";
 	}
+
+	@RequestMapping("updatePolicyStatus")
+	public String updatePolicyStatus(@RequestParam int policyId, @RequestParam String status, HttpSession session) {
+
+		Integer adminId = (Integer) session.getAttribute("sessionUserId");
+		if (adminId == null) {
+			return "redirect:/login";
+		}
+
+		Policy policy = policyservice.getPolicyById(policyId);
+
+		if ("ACTIVE".equals(status)) {
+			policy.setStatus("ACTIVE");
+			policy.setStartDate(LocalDate.now().toString());
+			policy.setExpiryDate(LocalDate.now().plusYears(1));
+		} else if ("REJECTED".equals(status)) {
+			policy.setStatus("REJECTED");
+		}
+
+		policy.setAdminId(adminId);
+		policyservice.updatePolicy(policy);
+
+		return "redirect:/Policyshow";
+	}
+
 }

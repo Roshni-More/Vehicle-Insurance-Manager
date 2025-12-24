@@ -1,7 +1,7 @@
 package com.rt.Entity;
 
 public class Signup {
-	private int signupid;
+	private int adminId;
 	private String username;
 	private String email;
 	private String password;
@@ -10,12 +10,12 @@ public class Signup {
 	public Signup() {
 	}
 
-	public int getSignupid() {
-		return signupid;
+	public int getAdminId() {
+		return adminId;
 	}
 
-	public void setSignupid(int signupid) {
-		this.signupid = signupid;
+	public void setAdminId(int adminId) {
+		this.adminId = adminId;
 	}
 
 	public String getUsername() {
